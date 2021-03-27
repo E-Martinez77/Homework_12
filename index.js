@@ -2,6 +2,20 @@ const mysql = require("mysql");
 const cTable = require("console.table");
 const inquirer = require("inquirer");
 
+const connection = mysql.createConnection({
+  host: "localhost",
+  port: 3306,
+  user: "root",
+  password: "",
+  database: "employee_trackerDB",
+});
+
+connection.connect((err) => {
+  if (err) throw err;
+  console.log(`connected as id ${connection.threadId}`);
+  init();
+});
+
 function init() {
   console.log("Let's get started");
   function startApp() {
