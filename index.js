@@ -63,14 +63,13 @@ function init() {
       });
   }
   startApp();
+
   function showOrg() {
     const query = "SELECT * FROM employee_trackerDB.employee;";
     connection.query(query, (err, res) => {
-      res.forEach(({ first_name, last_name, role_id, manager_id }) =>
-        console.table(first_name, last_name, role_id, manager_id)
-      );
+      console.log("--------------------");
+      console.table(res);
     });
-    // console.log("Who works here?");
     startApp();
   }
   function showDept() {
