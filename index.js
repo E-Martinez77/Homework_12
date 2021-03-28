@@ -6,7 +6,7 @@ const connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
   user: "root",
-  password: "",
+  password: "5x8BYz323!9",
   database: "employee_trackerDB",
 });
 
@@ -64,7 +64,13 @@ function init() {
   }
   startApp();
   function showOrg() {
-    console.log("Who works here?");
+    const query = "SELECT * FROM employee_trackerDB.employee;";
+    connection.query(query, (err, res) => {
+      res.forEach(({ first_name, last_name, role_id, manager_id }) =>
+        console.table(first_name, last_name, role_id, manager_id)
+      );
+    });
+    // console.log("Who works here?");
     startApp();
   }
   function showDept() {
@@ -92,5 +98,3 @@ function init() {
     startApp();
   }
 }
-
-init();
