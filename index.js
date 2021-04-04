@@ -65,12 +65,18 @@ function init() {
   startApp();
 
   function showOrg() {
-    const query = "SELECT * FROM employee_trackerDB.employee;";
+    const query = `SELECT employee.id, CONCAT(employee.first_name," ", employee.last_name) AS Employee,title,department.name AS department, role.salary, CONCAT(e.first_name, " ", e.last_name) AS manager FROM employee
+    JOIN role
+    ON employee.role_id = role.id 
+    join department
+    ON role.department_id = department.id
+    LEFT JOIN employee e 
+    ON employee.manager_id = e.id;`;
     connection.query(query, (err, res) => {
-      console.log("--------------------");
-      console.table(res);
+      // console.log("--------------------");
+      console.table("ORG Chart", res);
+      startApp();
     });
-    startApp();
   }
   function showDept() {
     console.log("Who works where?");
