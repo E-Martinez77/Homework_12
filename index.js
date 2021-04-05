@@ -79,16 +79,69 @@ function init() {
     });
   }
   function showDept() {
-    console.log("Who works where?");
-    startApp();
+    const query = `SELECT department.name AS department, CONCAT(employee.first_name," ", employee.last_name) AS Employee,title FROM employee
+    JOIN role
+    ON employee.role_id = role.id 
+    join department
+    ON role.department_id = department.id
+    LEFT JOIN employee e 
+    ON employee.manager_id = e.id;`;
+    connection.query(query, (err, res) => {
+      // console.log("--------------------");
+      console.table("Department Listing", res);
+      startApp();
+    });
   }
   function showMngmnt() {
-    console.log("Who works for who?");
-    startApp();
+    const query = `SELECT CONCAT(e.first_name, " ", e.last_name) AS manager, CONCAT(employee.first_name," ", employee.last_name) AS Employee,title,department.name AS department FROM employee
+    JOIN role
+    ON employee.role_id = role.id 
+    join department
+    ON role.department_id = department.id
+    LEFT JOIN employee e 
+    ON employee.manager_id = e.id;
+    `;
+    connection.query(query, (err, res) => {
+      // console.log("--------------------");
+      console.table("Management Listing", res);
+      startApp();
+    });
   }
   function addEmployee() {
-    console.log("Hire someone?");
-    startApp();
+    inquirer
+      .prompt([
+        {
+          type: "input",
+          name: "firstName",
+          message: "What is your Employee's first name?",
+        },
+        {
+          type: "input",
+          name: "lastName",
+          message: "What is your Employee's last name?",
+        },
+        {
+          type: "list",
+          name: "watDept",
+          message: "What Department does your Employee report to?",
+          choices: [
+            "1-Sales",
+            "2-Engineering",
+            "3-Accounting",
+            "4-Legal",
+            "5-Custodial",
+          ],
+        },
+      ])
+      .then((data) => {
+        console.log(data);
+      });
+    // const query = ``;
+    // connection.query(query, (err, res) => {
+    //   console.log("New Employee added");
+    // });
+    // console.log("Hire someone?");
+    // startApp();
   }
   function fireEmployee() {
     console.log("Fire someone?");
