@@ -162,6 +162,8 @@ function init() {
   }
   function fireEmployee() {
     console.log("Fire someone?");
+
+    // DELETE FROM employee WHERE id = 6;
     startApp();
   }
   function promoteEmployee() {
