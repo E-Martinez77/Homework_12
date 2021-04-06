@@ -124,17 +124,34 @@ function init() {
           type: "list",
           name: "watDept",
           message: "What Department does your Employee report to?",
-          choices: [
-            "1-Sales",
-            "2-Engineering",
-            "3-Accounting",
-            "4-Legal",
-            "5-Custodial",
-          ],
+          choices: ["Sales", "Engineering", "Accounting", "Legal", "Custodial"],
         },
       ])
       .then((data) => {
         console.log(data);
+        // console.log(data.firstName);
+        // console.log(data.lastName);
+        // console.log(data.watDept);
+        let dept;
+        if (data.watDept === "Sales") {
+          dept = "1";
+        } else if (data.watDept === "Engineering") {
+          dept = "2";
+        } else if (data.watDept === "Accounting") {
+          dept = "3";
+        } else if (data.watDept === "Legal") {
+          dept = "4";
+        } else dept = "5";
+        const query = `INSERT into employee(first_name, last_name, role_id)
+        Value("${data.firstName}", "${data.lastName}", "${dept}")
+        `;
+        connection.query(query, (err, res) => {
+          // console.log("--------------------");
+          console.log(`"${data.firstName} was added successfully!`, res);
+          startApp();
+        });
+
+        startApp();
       });
     // const query = ``;
     // connection.query(query, (err, res) => {
