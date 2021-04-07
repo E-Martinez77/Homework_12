@@ -161,15 +161,82 @@ function init() {
     // startApp();
   }
   function fireEmployee() {
-    console.log("Fire someone?");
+    inquirer
+      .prompt([
+        {
+          type: "input",
+          name: "fireWho",
+          message: "Please enter the Employee ID to remove?",
+        },
+      ])
+      .then((data) => {
+        console.log(data.fireWho);
+        const query = `DELETE FROM employee WHERE id = ${data.fireWho}`;
+        connection.query(query, (err, res) => {
+          // console.log("--------------------");
+          console.log(`${data.fireWho}'s employment has been severed`, res);
+          startApp();
+        });
+      });
+  }
+  // DELETE FROM employee WHERE id = 6;
 
-    // DELETE FROM employee WHERE id = 6;
-    startApp();
-  }
   function promoteEmployee() {
-    console.log("Promote someone?");
-    startApp();
+    inquirer
+      .prompt([
+        {
+          type: "input",
+          name: "whichOne",
+          message: "What is the Employee's ID to update?",
+        },
+        {
+          type: "list",
+          name: "watRole",
+          message: "What role will the Employee now perform?",
+          choices: [
+            "Sales Lead",
+            "Sales Rep",
+            "Lead Engineer",
+            "Software Engineer",
+            "Accountant",
+            "Legal Analyst",
+            "Custodian",
+          ],
+        },
+      ])
+      .then((data) => {
+        console.log(data);
+        console.log(data.watRole);
+        let newRole;
+        if (data.watRole === "Sales Lead") {
+          newRole = 1;
+        } else if (data.watRole === "Sales Rep") {
+          newRole = 2;
+        } else if (data.watRole === "Lead Engineer") {
+          newRole = 3;
+        } else if (data.watRole === "Software Engineer") {
+          newRole = 4;
+        } else if (data.watRole === "Accountant") {
+          newRole = 5;
+        } else if (data.watRole === "Legal Analyst") {
+          newRole = 6;
+        } else newRole = 7;
+        console.log(newRole);
+        const query = `UPDATE employee
+        SET role_id = ${newRole} 
+        WHERE id = ${data.whichOne};`;
+        connection.query(query, (err, res) => {
+          // console.log("--------------------");
+          console.log(
+            `Employee #${data.whichOne} has been moved to the ${data.watRole} position`,
+            res
+          );
+          startApp();
+          // startApp();
+        });
+      });
   }
+
   function updateManager() {
     console.log("New Manager?");
     startApp();
