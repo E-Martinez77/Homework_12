@@ -17,7 +17,8 @@ connection.connect((err) => {
 });
 
 function init() {
-  console.log("Let's get started");
+  console.log("Let's get started!");
+
   function startApp() {
     inquirer
       .prompt([
@@ -60,9 +61,9 @@ function init() {
             updateManager();
             break;
         }
+        startApp();
       });
   }
-  startApp();
 
   function showOrg() {
     const query = `SELECT employee.id, CONCAT(employee.first_name," ", employee.last_name) AS Employee,title,department.name AS department, role.salary, CONCAT(e.first_name, " ", e.last_name) AS manager FROM employee
@@ -78,6 +79,7 @@ function init() {
       startApp();
     });
   }
+
   function showDept() {
     const query = `SELECT department.name AS department, CONCAT(employee.first_name," ", employee.last_name) AS Employee,title FROM employee
     JOIN role
@@ -92,6 +94,7 @@ function init() {
       startApp();
     });
   }
+
   function showMngmnt() {
     const query = `SELECT CONCAT(e.first_name, " ", e.last_name) AS manager, CONCAT(employee.first_name," ", employee.last_name) AS Employee,title,department.name AS department FROM employee
     JOIN role
@@ -107,6 +110,7 @@ function init() {
       startApp();
     });
   }
+
   function addEmployee() {
     inquirer
       .prompt([
@@ -128,10 +132,6 @@ function init() {
         },
       ])
       .then((data) => {
-        // console.log(data);
-        // console.log(data.firstName);
-        // console.log(data.lastName);
-        // console.log(data.watDept);
         let dept;
         if (data.watDept === "Sales") {
           dept = "1";
@@ -160,6 +160,7 @@ function init() {
     // console.log("Hire someone?");
     // startApp();
   }
+
   function fireEmployee() {
     inquirer
       .prompt([
@@ -179,7 +180,6 @@ function init() {
         });
       });
   }
-  // DELETE FROM employee WHERE id = 6;
 
   function promoteEmployee() {
     inquirer
@@ -221,7 +221,6 @@ function init() {
         } else if (data.watRole === "Legal Analyst") {
           newRole = 6;
         } else newRole = 7;
-        console.log(newRole);
         const query = `UPDATE employee
         SET role_id = ${newRole} 
         WHERE id = ${data.whichOne};`;
@@ -232,7 +231,6 @@ function init() {
             res
           );
           startApp();
-          // startApp();
         });
       });
   }
@@ -263,4 +261,5 @@ function init() {
         });
       });
   }
+  startApp();
 }
