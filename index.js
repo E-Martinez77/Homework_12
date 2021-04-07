@@ -238,7 +238,29 @@ function init() {
   }
 
   function updateManager() {
-    console.log("New Manager?");
-    startApp();
+    inquirer
+      .prompt([
+        {
+          type: "input",
+          name: "whichOne",
+          message: "Please enter the Employee's ID for Manager Assignment",
+        },
+        {
+          type: "input",
+          name: "watRole",
+          message:
+            "What is the Manager's ID that the employee will report to? Enter null if Employee does not report to anyone",
+        },
+      ])
+      .then((data) => {
+        console.log(data);
+        const query = `UPDATE employee
+        SET manager_id = ${data.watRole} 
+        WHERE id = ${data.whichOne};`;
+        connection.query(query, (err, res) => {
+          console.log(`New manager assignment has been completed`, res);
+          startApp();
+        });
+      });
   }
 }
