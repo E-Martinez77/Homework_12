@@ -18,6 +18,7 @@ connection.connect((err) => {
 
 function init() {
   console.log("Let's get started!");
+  startApp();
 
   function startApp() {
     inquirer
@@ -61,7 +62,6 @@ function init() {
             updateManager();
             break;
         }
-        startApp();
       });
   }
 
@@ -74,7 +74,9 @@ function init() {
     LEFT JOIN employee e 
     ON employee.manager_id = e.id;`;
     connection.query(query, (err, res) => {
-      // console.log("--------------------");
+      if (err) {
+        return err;
+      }
       console.table("ORG Chart", res);
       startApp();
     });
@@ -89,7 +91,6 @@ function init() {
     LEFT JOIN employee e 
     ON employee.manager_id = e.id;`;
     connection.query(query, (err, res) => {
-      // console.log("--------------------");
       console.table("Department Listing", res);
       startApp();
     });
@@ -261,5 +262,4 @@ function init() {
         });
       });
   }
-  startApp();
 }
